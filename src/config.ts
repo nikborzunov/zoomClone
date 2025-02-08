@@ -1,0 +1,3 @@
+export const INITIAL_RETRY_DELAY = 1000;
+export const MAX_RETRY_DELAY = 30000;
+export const MAX_RECONNECT_ATTEMPTS = 10;
