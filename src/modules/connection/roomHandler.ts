@@ -33,7 +33,7 @@ export function joinRoom(
 		if (audioTrack) {
 			audioTrack.enabled = false;
 		}
-		addVideoStream(options.videoGrid, options.myVideo, stream, 'Вы', 'self');
+		addVideoStream(options.videoGrid, options.myVideo, stream, 'You', 'self');
 		setMuteButtonUI(!options.isAudioMuted);
 		setVideoButtonUI(true);
 		setupControls(stream, setMuteButtonUI, setVideoButtonUI, options.toggleMute);
@@ -47,11 +47,17 @@ export function joinRoom(
 				const video = document.createElement('video') as HTMLVideoElement;
 				call.on('stream', (userVideoStream: MediaStream) => {
 					if (!document.getElementById(call.peer)) {
-						addVideoStream(options.videoGrid, video, userVideoStream, options.userIdToUserName[call.peer] || 'Другой', call.peer);
+						addVideoStream(
+							options.videoGrid,
+							video,
+							userVideoStream,
+							options.userIdToUserName[call.peer] || 'Other',
+							call.peer
+						);
 					}
 				});
 				call.on('error', (err: Error) => {
-					notify(`Ошибка в вызове от ${call.peer}: ${err.message}`, 'error');
+					notify(`Error in call from ${call.peer}: ${err.message}`, 'error');
 				});
 				call.on('close', () => {
 					removeVideo(options.videoGrid, call.peer);
@@ -65,7 +71,7 @@ export function joinRoom(
 				(user: User) => {
 					const { userId, userName } = user;
 					if (!options.peers[userId]) {
-						notify(`Пользователь подключился: ${userName}`, 'info');
+						notify(`User connected: ${userName}`, 'info');
 						connectToNewUser(userId, stream, userName, options);
 					}
 				},
@@ -73,8 +79,8 @@ export function joinRoom(
 					if (options.peers[userId]) {
 						options.peers[userId].close();
 					}
-					const userName = options.userIdToUserName[userId] || 'Пользователь';
-					notify(`Пользователь отключился: ${userName}`, 'warning');
+					const userName = options.userIdToUserName[userId] || 'User';
+					notify(`User disconnected: ${userName}`, 'warning');
 					removeVideo(options.videoGrid, userId);
 					delete options.userIdToUserName[userId];
 				},
@@ -103,7 +109,7 @@ export function joinRoom(
 		});
 
 	}).catch(() => {
-		notify('Видео поток недоступен. Проверьте настройки вашего устройства.', 'error');
+		notify('Video stream unavailable. Please check your device settings.', 'error');
 		showPlaceholder(options.videoGrid);
 	});
 }
@@ -119,7 +125,7 @@ function connectToNewUser(userId: string, stream: MediaStream, userName: string,
 			}
 		});
 		call.on('error', (err: Error) => {
-			notify(`Ошибка при подключении к пользователю: ${err.message}`, 'error');
+			notify(`Error connecting to user: ${err.message}`, 'error');
 		});
 		call.on('close', () => {
 			removeVideo(options.videoGrid, userId);
@@ -131,7 +137,7 @@ function connectToNewUser(userId: string, stream: MediaStream, userName: string,
 
 function showPlaceholder(videoGrid: HTMLElement): void {
 	const placeholder = document.createElement('div');
-	placeholder.innerHTML = `<p>Видео поток недоступен. Проверьте настройки вашего устройства.</p>`;
+	placeholder.innerHTML = `<p>Video stream unavailable. Please check your device settings.</p>`;
 	Object.assign(placeholder.style, {
 		padding: '20px',
 		backgroundColor: '#f2f2f2',

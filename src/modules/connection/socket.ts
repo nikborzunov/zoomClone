@@ -34,23 +34,23 @@ export function setupSocketHandlers(
     });
 
     socket.on('connect_error', (err: any) => {
-        notify('Ошибка соединения сокетов. Попытка реконнекта...', 'error');
+        notify('Socket connection error. Attempting to reconnect...', 'error');
     });
 
     socket.on('disconnect', (reason: string) => {
-        notify('Соединение сокетов потеряно. Попытка реконнекта...', 'warning');
+        notify('Socket connection lost. Attempting to reconnect...', 'warning');
     });
 
     socket.on('reconnect', (attemptNumber: number) => {
-        notify('Соединение сокетов восстановлено', 'success');
+        notify('Socket connection restored', 'success');
     });
 
     socket.on('reconnect_attempt', (attempt: number) => {
-        console.log(`Попытка реконнекта сокетов: ${attempt}`);
+        console.log(`Socket reconnection attempt: ${attempt}`);
     });
 
     socket.on('reconnect_failed', () => {
-        notify('Не удалось восстановить соединение сокетов. Пожалуйста, обновите страницу.', 'error');
+        notify('Failed to restore socket connection. Please refresh the page.', 'error');
     });
 
     handlersSet = true;

@@ -18,12 +18,12 @@ export function addVideoStream(
 
     const placeholder = document.createElement('div');
     placeholder.classList.add('video-placeholder');
-    placeholder.innerText = label || 'Другой';
+    placeholder.innerText = label || 'Other';
     videoContainer.appendChild(placeholder);
 
     const labelElement = document.createElement('div');
     labelElement.classList.add('video-label');
-    labelElement.innerText = label || 'Другой';
+    labelElement.innerText = label || 'Other';
     videoContainer.appendChild(labelElement);
 
     videoContainer.appendChild(video);
@@ -36,7 +36,7 @@ export function addVideoStream(
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         video.play().catch(error => {
-                            console.error(`Ошибка воспроизведения видео для ${id}:`, error);
+                            console.error(`Error playing video for ${id}:`, error);
                         });
                         placeholder.style.display = 'none';
                         obs.unobserve(entry.target);

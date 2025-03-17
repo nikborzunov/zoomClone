@@ -1,81 +1,81 @@
 ```markdown
 # Zoom Clone
 
-Этот проект является клоном Zoom, который включает использование PeerJS и Socket.IO для видео-чатов в реальном времени.
+This project is a Zoom clone that includes the use of PeerJS and Socket.IO for real-time video chats.
 
-## Установка
+## Installation
 
-### Требования
+### Requirements
 
-- Node.js (рекомендуется версия 16 или новее)
-- Yarn (установлен глобально)
-- Ngrok (для публичных туннелей)
+- Node.js (version 16 or later is recommended)
+- Yarn (installed globally)
+- Ngrok (for public tunnels)
 
-### Установка зависимостей
+### Installing Dependencies
 
-1. Клонируйте репозиторий и перейдите в директорию проекта.
+1. Clone the repository and navigate to the project directory.
 
     ```bash
-    git clone <репозиторий>
-    cd <папка_проекта>
+    git clone <repository>
+    cd <project_folder>
     ```
 
-2. Установите зависимости с помощью Yarn.
+2. Install the dependencies using Yarn.
 
     ```bash
     yarn install
     ```
 
-## Запуск проекта
+## Running the Project
 
-### Сборка
+### Build
 
-Для сборки проекта выполните команду:
+To build the project, run the following command:
 
 ```bash
 yarn build
 ```
 
-Эта команда запустит TypeScript компиляцию и Webpack сборку клиентских файлов.
+This command will run the TypeScript compilation and Webpack build for the client files.
 
-### Запуск в режиме разработки
+### Running in Development Mode
 
-Для работы в режиме разработки используйте следующее:
+For development, use the following command:
 
 ```bash
 yarn devStart
 ```
 
-Эта команда запустит сервер с использованием Nodemon, а также будет следить за изменениями в коде благодаря `tsc` и `webpack` в режиме watch.
+This command will start the server using Nodemon and will also watch for code changes thanks to `tsc` and Webpack in watch mode.
 
-### Запуск в режиме продакшн
+### Running in Production Mode
 
-Для запуска собранного приложения используйте:
+To start the built application, use:
 
 ```bash
 yarn start
 ```
 
-### Подключение Ngrok
+### Connecting Ngrok
 
-Для того чтобы проект был доступен через интернет, необходимо настроить Ngrok.
+To make the project accessible over the internet, you need to configure Ngrok.
 
-1. Установите Ngrok (следуйте инструкциям на официальном сайте).
-2. Запустите Ngrok, чтобы создать туннель к вашему локальному серверу:
+1. Install Ngrok (follow the instructions on the official website).
+2. Run Ngrok to create a tunnel to your local server:
 
     ```bash
     ngrok http 8080
     ```
 
-3. Используйте предоставленный публичный URL Ngrok в процессе разработки и тестирования, чтобы к вашему приложению могли подключаться другие пользователи через интернет.
+3. Use the provided public Ngrok URL during development and testing so that other users can connect to your application via the internet.
 
-### Замена Ngrok URL
+### Replacing the Ngrok URL
 
-После запуска Ngrok, измените вашу конфигурацию PeerJS, чтобы использовать новый публичный URL. Откройте `src/modules/connection/peer.js` и обновите `host` на новый адрес.
+After starting Ngrok, update your PeerJS configuration to use the new public URL. Open `src/modules/connection/peer.js` and update the `host` to the new address.
 
 ```javascript
 const peerOptions: PeerJSOption = {
-    host: '<Ваш Ngrok URL>',
+    host: '<Your Ngrok URL>',
     port: 443,
     path: '/peerjs',
     secure: true,
@@ -83,14 +83,14 @@ const peerOptions: PeerJSOption = {
 };
 ```
 
-## Дополнительная информация
+## Additional Information
 
-- Убедитесь, что порты, используемые приложением, открыты и доступны.
-- При использовании Ngrok следите за задачами безопасности (например, избегайте передачи чувствительных данных без шифрования).
-- В случае необходимости адаптируйте конфигурацию TypeScript, Webpack и других инструментов под ваши нужды.
+- Ensure that the ports used by the application are open and accessible.
+- When using Ngrok, pay attention to security considerations (for example, avoid transmitting sensitive data without encryption).
+- Adapt the configuration of TypeScript, Webpack, and other tools to your needs if necessary.
 
-## Контакты
+## Contacts
 
-@kupilulitku Telegram
+@kupilulitku on Telegram
 
 ```

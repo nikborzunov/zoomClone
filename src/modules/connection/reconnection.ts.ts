@@ -66,13 +66,13 @@ export class ReconnectionManager {
 
 	private handlePeerError(err: Error): void {
 		if (err.message.includes('unavailable-id')) {
-			notify('PeerID уже используется. Пожалуйста, обновите страницу.', 'error');
+			notify('PeerID is already in use. Please refresh the page.', 'error');
 		}
 		this.options.onPeerError?.(err);
 	}
 
 	private handlePeerClose(): void {
-		notify('PeerJS соединение закрыто.', 'warning');
+		notify('PeerJS connection closed.', 'warning');
 		if (this.attempt < MAX_RECONNECT_ATTEMPTS) {
 			const delay = Math.min(this.retryTimeout * 2 ** this.attempt, MAX_RETRY_DELAY);
 			setTimeout(() => {
@@ -80,7 +80,7 @@ export class ReconnectionManager {
 				this.setupPeer();
 			}, delay);
 		} else {
-			notify('Не удалось восстановить PeerJS соединение. Пожалуйста, обновите страницу.', 'error');
+			notify('Failed to restore PeerJS connection. Please refresh the page.', 'error');
 		}
 	}
 

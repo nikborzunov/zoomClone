@@ -19,7 +19,8 @@ const peerServer = ExpressPeerServer(server, {
   path: '/'
 } as any);
 
-app.use('/peerjs',
+app.use(
+  '/peerjs',
   (req, res, next) => {
     console.log(`PeerJS request: ${req.method} ${req.url}`);
     next();
@@ -51,16 +52,16 @@ const userSessionIdToRoomId: { [sessionId: string]: string } = {};
 const socketIdToSessionId: { [socketId: string]: string } = {};
 
 io.on('connection', (socket: Socket) => {
-  console.log(`Новое подключение: ${socket.id} от ${socket.handshake.address}`);
+  console.log(`New connection: ${socket.id} from ${socket.handshake.address}`);
 
   socket.on('join-room', (roomId: string, userSessionId: string, peerId: string, userName: string) => {
-    console.log(`Пользователь с SessionID: ${userSessionId}, PeerID: ${peerId}, именем "${userName}" присоединился к комнате: ${roomId}`);
+    console.log(`User with SessionID: ${userSessionId}, PeerID: ${peerId}, named "${userName}" joined room: ${roomId}`);
 
     socketIdToSessionId[socket.id] = userSessionId;
 
     if (userSessionIdToPeerId[userSessionId] && userSessionIdToPeerId[userSessionId] !== peerId) {
       const oldPeerId = userSessionIdToPeerId[userSessionId];
-      console.log(`Обновление PeerID для SessionID: ${userSessionId} с ${oldPeerId} на ${peerId}`);
+      console.log(`Updating PeerID for SessionID: ${userSessionId} from ${oldPeerId} to ${peerId}`);
       socket.to(roomId).emit('user-disconnected', oldPeerId);
       delete peerIdToUserName[oldPeerId];
     }
@@ -97,10 +98,10 @@ io.on('connection', (socket: Socket) => {
     const sessionId = socketIdToSessionId[socket.id];
     if (sessionId) {
       const peerId = userSessionIdToPeerId[sessionId];
-      const roomId = userSessionIdToRoomId[socket.id];
+      const roomId = userSessionIdToRoomId[sessionId];
       const userName = peerIdToUserName[peerId];
 
-      console.log(`Пользователь с SessionID: ${sessionId}, PeerID: ${peerId}, именем "${userName}" отключился от комнаты: ${roomId}`);
+      console.log(`User with SessionID: ${sessionId}, PeerID: ${peerId}, named "${userName}" disconnected from room: ${roomId}`);
       socket.to(roomId).emit('user-disconnected', peerId);
 
       delete userSessionIdToPeerId[sessionId];
@@ -108,12 +109,12 @@ io.on('connection', (socket: Socket) => {
       delete userSessionIdToRoomId[sessionId];
       delete socketIdToSessionId[socket.id];
     } else {
-      console.log(`Сокет ${socket.id} отключился, но не был связан с пользователем или комнатой.`);
+      console.log(`Socket ${socket.id} disconnected but was not associated with a user or room.`);
     }
   });
 });
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
-  console.log(`Сервер слушает на порту ${PORT}`);
+  console.log(`Server is listening on port ${PORT}`);
 });

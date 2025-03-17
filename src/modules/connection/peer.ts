@@ -9,7 +9,7 @@ export function createPeer(
     onError: (err: any) => void,
     onClose: () => void
 ): PeerInstance {
-    console.log('PeerJS: Создание нового экземпляра Peer');
+    console.log('PeerJS: Creating a new Peer instance');
     const peerOptions: PeerJSOption = {
         host: '4e0b-46-246-93-69.ngrok-free.app',
         port: 443,
@@ -30,25 +30,25 @@ export function createPeer(
     const peer = new Peer(id, peerOptions) as PeerInstance;
 
     peer.on('open', (id: string) => {
-        console.log(`PeerJS: Соединение открыто с ID: ${id}`);
+        console.log(`PeerJS: Connection opened with ID: ${id}`);
         onOpen(id);
     });
 
     peer.on('error', (err: any) => {
-        console.error(`PeerJS Ошибка: ${err.type} - ${err.message}`);
-        notify(`Ошибка PeerJS: ${err.type} - ${err.message}`, 'error');
+        console.error(`PeerJS Error: ${err.type} - ${err.message}`);
+        notify(`PeerJS error: ${err.type} - ${err.message}`, 'error');
         onError(err);
     });
 
     peer.on('close', () => {
-        console.warn('PeerJS: Соединение закрыто');
-        notify('PeerJS соединение закрыто.', 'warning');
+        console.warn('PeerJS: Connection closed');
+        notify('PeerJS connection closed.', 'warning');
         onClose();
     });
 
     peer.on('disconnected', () => {
-        console.warn('PeerJS: Отключено. Попытка реконнекта...');
-        notify('PeerJS: Отключено. Попытка реконнекта...', 'warning');
+        console.warn('PeerJS: Disconnected. Attempting to reconnect...');
+        notify('PeerJS disconnected. Attempting to reconnect...', 'warning');
         peer.reconnect();
     });
 

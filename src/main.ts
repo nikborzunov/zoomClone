@@ -22,7 +22,7 @@ const userIdToUserName: { [key: string]: string } = {};
 const reconnectionManager = new ReconnectionManager({
     onJoinRoom: joinRoomHandler,
     onPeerError: (err: Error) => {
-        notify(`PeerJS ошибка: ${err.message}`, 'error');
+        notify(`PeerJS error: ${err.message}`, 'error');
     }
 });
 
@@ -56,5 +56,5 @@ function toggleMute(): void {
 }
 
 socket.on('disconnect', () => {
-    notify('Socket отключен. Попытка восстановить...', 'warning');
+    notify('Socket disconnected. Attempting to reconnect...', 'warning');
 });

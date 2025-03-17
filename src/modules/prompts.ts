@@ -3,15 +3,15 @@ import { notify } from './notifications';
 
 export function promptUserName(roomId: string, joinRoomCallback: (roomId: string, userName: string) => void): void {
   Swal.fire({
-    title: 'Введите ваше имя',
+    title: 'Enter your name',
     input: 'text',
-    inputLabel: 'Имя',
-    inputPlaceholder: 'Ваше имя',
+    inputLabel: 'Name',
+    inputPlaceholder: 'Your name',
     allowOutsideClick: false,
     allowEscapeKey: false,
     inputValidator: (value) => {
       if (!value || value.trim().length === 0) {
-        return 'Пожалуйста, введите ваше имя!'
+        return 'Please enter your name!';
       }
       return null;
     }
@@ -19,7 +19,7 @@ export function promptUserName(roomId: string, joinRoomCallback: (roomId: string
     if (result.isConfirmed && result.value) {
       const userName = result.value.trim();
       if (userName.length === 0) {
-        notify('Имя не может быть пустым', 'error');
+        notify('Name cannot be empty', 'error');
         promptUserName(roomId, joinRoomCallback);
       } else {
         joinRoomCallback(roomId, userName);

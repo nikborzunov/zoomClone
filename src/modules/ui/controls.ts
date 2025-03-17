@@ -19,7 +19,7 @@ export function setupControls(
 
         videoTrack.enabled = !videoTrack.enabled;
         setVideoButtonUI(videoTrack.enabled);
-        notify(videoTrack.enabled ? 'Видео включено' : 'Видео отключено', 'info');
+        notify(videoTrack.enabled ? 'Video enabled' : 'Video disabled', 'info');
     });
 }
 
